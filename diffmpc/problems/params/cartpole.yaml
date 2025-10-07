@@ -1,0 +1,20 @@
+horizon: 100
+discretization_resolution: 0.05
+# see optimal_control_problem.py for convention:
+# 0 (euler), 1 (midpoint), 2 (rk4)
+discretization_scheme: 0
+initial_state: [0.0, 0.0, 0.1, 0.0]
+final_state: [0., 0.0, 0, 0]
+reference_state_trajectory: [0., 0., 0., 0.]  # (horizon+1, nx) - later duplicated over time
+reference_control_trajectory: [0.]  # (horizon+1, nu) - later duplicated over time
+penalize_control_reference: False
+# cost parameters
+weights_penalization_reference_state_trajectory: [1., 2., 1.5, 1.]
+weights_penalization_final_state: [0., 0., 0., 0.]
+weights_penalization_control_squared: [5.E-2]
+
+# dynamics parameters
+masscart: 1.0
+masspole: 0.1
+length: 0.5   # half pole length (distance to center of mass)
+gravity: 9.81

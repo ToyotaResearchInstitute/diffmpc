@@ -1,0 +1,21 @@
+horizon: 25
+# discretization_resolution: 0.01 # dt
+discretization_resolution: 0.03 # dt
+# see optimal_control_problem.py for convention:
+# 0 (euler), 1 (midpoint), 2 (rk4)
+discretization_scheme: 2
+initial_state: [0., 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
+final_state: [0., 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
+
+reference_state_trajectory: [0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0.]  # (horizon+1, nx) - later duplicated over time
+reference_control_trajectory: [0.981, 0., 0., 0.]  # (horizon+1, nu) - later duplicated over time
+penalize_control_reference: True
+
+# penalization parameters
+weights_penalization_reference_state_trajectory: [1.E-4, 1.E-4,1.E-4,1.E-1,1.E-1,1.E-1,1.E-4,1.E-4,1.E-4,1.E-4,1.E-1,1.E-1,1.E-1]
+weights_penalization_final_state: [1.E+5, 1.E+5, 1.E+5, 1.E+3, 1.E+3, 1.E+3, 1.E+3, 1.E+3, 1.E+3, 1.E+3, 1.E+3, 1.E+3, 1.E+3]
+weights_penalization_control_squared: [1.E+1,1.E-1,1.E-1,1.E-1]
+
+# dynamics parameters
+mass: [0.1]
+inertia_vector: [0.1, 0.01, 0.01, 0.01, 0.1, 0.01, 0.01, 0.01, 0.1]

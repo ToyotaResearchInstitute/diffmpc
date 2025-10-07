@@ -1,0 +1,15 @@
+horizon: 0
+discretization_resolution: 0.1 # dt
+# see optimal_control_problem.py for convention:
+# 0 (euler), 1 (midpoint), 2 (rk4)
+discretization_scheme: 0
+initial_state: [0., 0.]
+final_state: [0., 0.]
+reference_state_trajectory: [0., 0.] # (horizon+1, nx) - later duplicated over time
+reference_control_trajectory: [0., 0.] # (horizon+1, nx) - later duplicated over time
+penalize_control_reference: False
+
+# cost parameters
+weights_penalization_reference_state_trajectory: [0., 0.]
+weights_penalization_final_state: [0., 0.]
+weights_penalization_control_squared: [0., 0.]

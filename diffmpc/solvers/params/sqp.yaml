@@ -1,0 +1,11 @@
+verbose: False
+tol_convergence: 1.E-8
+num_scp_iteration_max: 15
+linesearch: False
+linesearch_eta: 0.4
+linesearch_alphas: [0.01, 0.1, 0.3, 0.7, 1.0]
+warm_start_backward: True
+pcg:
+  verbose: False
+  max_iter: 10000
+  tol_epsilon: 1.E-9
