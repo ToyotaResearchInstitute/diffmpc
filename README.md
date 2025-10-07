@@ -26,6 +26,10 @@ Upgrade pip and install all dependencies by running:
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
+Clone and update submodules:
+```bash
+git submodule update --init --recursive
+```
 The package can be installed by running
 ```bash
 python -m pip install -e .
