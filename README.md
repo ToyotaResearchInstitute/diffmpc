@@ -1,6 +1,15 @@
 # diffmpc
 
-Differentiable model predictive control tool with support for execution on the GPU. This repository includes code to reproduce results in Section 4 of the manuscript "Differentiable Model Predictive Control on the GPU".
+Differentiable Model Predictive Control (MPC) on the GPU. 
+
+This repository includes code to reproduce results in Section 4 of the manuscript "Differentiable Model Predictive Control on the GPU".
+
+diffmpc can be used to tune MPC algorithms via reinforcement learning and domain randomization to enable robust performance. For example, diffmpc can be used to enable robust drifting through water puddles.
+![supra_puddle](figs/supra_puddle.jpg)
+
+diffmpc uses sequential quadratic programming (SQP) and a custom preconditioned conjugate gradient (PCG) routine to exploit the problem's structure and enable efficient parallelization on the GPU.
+![diffmpc](figs/diffmpc.jpg)
+
 
 
 ## Installation
@@ -27,14 +36,14 @@ pip uninstall -y jax jaxlib
 pip install --upgrade "jax[cuda12]"
 ```
 
-## Benchmarking
-Scripts and instructions for rerunning benchmarks are in `benchmarking` ([see details here](benchmarking/README.md)).
-
+## Examples
 For examples on how to use diffmpc, refer to:
 
 * RL spacecraft example: [RL_spacecraft.ipynb](notebooks/RL_spacecraft.ipynb)
 * RL quadrotor example: [RL_quadrotor.ipynb](notebooks/RL_quadrotor.ipynb)
 
+## Benchmarking
+Scripts and instructions for rerunning benchmarks are in `benchmarking` ([see details here](benchmarking/README.md)).
 
 ## Testing
 The following unit tests should pass:
