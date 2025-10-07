@@ -9,6 +9,9 @@ Installation instructions for each environment are below.
 python -m venv .diffmpc-venv && source .diffmpc-venv/bin/activate
 # cd to diffmpc root directory
 python -m pip install -e .
+
+# (optional) to run diffmpc on gpu install jax with cuda support
+pip install --upgrade "jax[cuda12]"
 ```
 
 ## mpc.pytorch
@@ -19,7 +22,7 @@ python -m pip install -e .
 ```
 
 ## trajax
-This environment uses a docker container for specific package versions.
+The trajax environment uses a docker container. This requires docker and the Nvidia Container Toolkit to be installed.
 ```bash
 cd trajax_env
 ./build.sh
@@ -29,18 +32,15 @@ cd trajax_env
 ## theseus
 ```bash
 python -m venv .theseus-venv && source .theseus-venv/bin/activate
-python -m pip install theseus-ai
-```
-Theseus requires a torch (≥ 2.0.0) install, if you don't have torch installed locally, select a version compatible with your system.
-```bash
-python -m pip install torch==2.8.0
-```
-Additionally, the official wheels of Theseus are broken. There are dependencies in scikit-sparse which can be fixed by:
-```bash
+# Theseus requires a torch (≥ 2.0.0) install, if you don't have torch installed locally, select a version compatible with your system.
+python -m pip install cython torch==2.8.0
+# Additionally, the official wheels of Theseus are broken. There are dependencies in scikit-sparse which can be fixed by:
+sudo apt-get install -y libsuitesparse-dev
 pip install "numpy==1.23.5" --force-reinstall
 pip install --no-cache-dir --force-reinstall scikit-sparse
-```
 
+python -m pip install theseus-ai
+```
 # Running Benchmarks
 ## Reinforcement Learning
 Reinforcement learning benchmarks are in `benchmarks/reinforcement-learning`.
