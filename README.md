@@ -1,8 +1,8 @@
 # diffmpc
 
-Differentiable Model Predictive Control (MPC) on the GPU. 
+## Differentiable Model Predictive Control (MPC) on the GPU
 
-This repository includes code to reproduce results in Section 4 of the manuscript "Differentiable Model Predictive Control on the GPU".
+This repository contains the code to reproduce results in Section 4 of [Differentiable Model Predictive Control on the GPU](https://arxiv.org/abs/2510.06179) by Emre Adabag, Marcus Greiff, John Subosits, and Thomas Lew.
 
 diffmpc can be used to tune MPC algorithms via reinforcement learning and domain randomization to enable robust performance. For example, diffmpc can be used to enable robust drifting through water puddles.
 ![supra_puddle](figs/supra_puddle.jpg)
