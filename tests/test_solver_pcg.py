@@ -17,7 +17,11 @@ from diffmpc.solvers.pcg import (  # noqa: E402
 
 def test_constructor_and_properties():
     """Test solver constructor."""
-    solver_params = {"max_iter": 50, "tol_epsilon": 1e-5}
+    solver_params = {
+        "max_iter": 50,
+        "tol_epsilon": 1e-5,
+        "num_iter_check_termination": 1,
+    }
     oc = PCGOptimalControl(10, 4, 2, solver_params)
 
     assert oc.name == "PCGOptimalControl"
@@ -61,7 +65,12 @@ def test_zero_schur_and_dynamics_cost_shapes():
 def test_compute_S_Phiinv_identity_dynamics(T, nx, nu):
     """Test computation of the preconditioner."""
 
-    oc = PCGOptimalControl(T, nx, nu, {"max_iter": 10, "tol_epsilon": 1e-8})
+    solver_params = {
+        "max_iter": 10,
+        "tol_epsilon": 1e-8,
+        "num_iter_check_termination": 1,
+    }
+    oc = PCGOptimalControl(T, nx, nu, solver_params)
 
     qp_params = QPParameters(
         QPDynamicsParameters(
@@ -141,7 +150,12 @@ def test_get_states_controls_from_zero_multipliers(T, nx, nu):
 def test_solve_KKT_Schur_trivial(T, nx, nu):
     """Test solving a trivial KKT system."""
 
-    oc = PCGOptimalControl(T, nx, nu, {"max_iter": 10, "tol_epsilon": 1e-8})
+    solver_params = {
+        "max_iter": 10,
+        "tol_epsilon": 1e-8,
+        "num_iter_check_termination": 1,
+    }
+    oc = PCGOptimalControl(T, nx, nu, solver_params)
 
     qp_params = QPParameters(
         QPDynamicsParameters(
@@ -180,7 +194,12 @@ def test_solve_KKT_Schur_warmstart():
     """Test warm-starting PCG."""
     (T, nx, nu) = (3, 4, 5)
 
-    oc = PCGOptimalControl(T, nx, nu, {"max_iter": 20, "tol_epsilon": 1e-13})
+    solver_params = {
+        "max_iter": 20,
+        "tol_epsilon": 1e-13,
+        "num_iter_check_termination": 1,
+    }
+    oc = PCGOptimalControl(T, nx, nu, solver_params)
 
     qp_params = QPParameters(
         QPDynamicsParameters(

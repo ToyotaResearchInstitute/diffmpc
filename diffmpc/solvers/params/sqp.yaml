@@ -9,3 +9,4 @@ pcg:
   verbose: False
   max_iter: 10000
   tol_epsilon: 1.E-9
+  num_iter_check_termination: 5

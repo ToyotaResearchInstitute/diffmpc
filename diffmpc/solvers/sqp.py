@@ -386,21 +386,11 @@ class SQPSolver:
 
         decrease_values = jax.vmap(decrease_function)(alpha_candidates)
 
-        # Starting from α=1, decrease α until the decrease condition holds.
-        def get_smaller_alpha(carry: Tuple[int, float]) -> Tuple[int, float]:
-            i, _ = carry
-            return (i - 1, alpha_candidates[i - 1])
-
-        def continue_decreasing_alpha(carry: Tuple[int, float]) -> bool:
-            i, _ = carry
-            break_condition = decrease_values[i] < 0
-            break_condition = jnp.logical_or(break_condition, i == 0)
-            return ~break_condition
-
-        index, alpha = len(alpha_candidates) + 1, jnp.max(alpha_candidates)
-        alpha = jax.lax.while_loop(
-            continue_decreasing_alpha, get_smaller_alpha, init_val=(index, alpha)
-        )[1]
+        # Find largest α such that the decrease condition holds.
+        # If none satisfy the decrease condition, use smallest α.
+        valid_mask = decrease_values < 0
+        idx = jnp.max(jnp.where(valid_mask, jnp.arange(len(alpha_candidates)), 0))
+        alpha = alpha_candidates[idx]
 
         # apply the linesearch
         qp_solution_new = QPSolution(

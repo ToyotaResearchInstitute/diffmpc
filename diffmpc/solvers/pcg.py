@@ -404,34 +404,37 @@ class PCGOptimalControl:
 
         def pcg_iterate_fun(val):
             it, r, p, eta, lambs = val
-            ps = jnp.concatenate(
-                [
-                    jnp.concatenate([jnp.zeros((1, nx)), p[:-1]], axis=0),
-                    p,
-                    jnp.concatenate([p[1:], jnp.zeros((1, nx))], axis=0),
-                ],
-                axis=-1,
-            )
-            Upsilon = jnp.matvec(S, ps)  # vmap(lambda A, v: A @ v)
-            v = jnp.sum(p * Upsilon)  # jnp.sum(vmap(jnp.dot)(p, Upsilon))
-            alpha = eta / v
-            lambs = lambs + alpha * p
-            r = r - alpha * Upsilon
-            rs = jnp.concatenate(
-                [
-                    jnp.concatenate([jnp.zeros((1, nx)), r[:-1]], axis=0),
-                    r,
-                    jnp.concatenate([r[1:], jnp.zeros((1, nx))], axis=0),
-                ],
-                axis=-1,
-            )
-            rtilde = jnp.matvec(Phiinv, rs)  # vmap(lambda A, v: A @ v)
-            etaprime = jnp.sum(r * rtilde)  # jnp.sum(vmap(jnp.dot)(r, rtilde))
-            beta = etaprime / eta
-            p = rtilde + beta * p
-            eta = etaprime
-            # jax.debug.print("eta = {eta}", eta=eta)
-            return (it + 1, r, p, eta, lambs)
+            for _ in range(self.params["num_iter_check_termination"]):
+                ps = jnp.concatenate(
+                    [
+                        jnp.concatenate([jnp.zeros((1, nx)), p[:-1]], axis=0),
+                        p,
+                        jnp.concatenate([p[1:], jnp.zeros((1, nx))], axis=0),
+                    ],
+                    axis=-1,
+                )
+                Upsilon = jnp.matvec(S, ps)  # vmap(lambda A, v: A @ v)
+                v = jnp.sum(p * Upsilon)  # jnp.sum(vmap(jnp.dot)(p, Upsilon))
+                alpha = eta / v
+                lambs = lambs + alpha * p
+                r = r - alpha * Upsilon
+                rs = jnp.concatenate(
+                    [
+                        jnp.concatenate([jnp.zeros((1, nx)), r[:-1]], axis=0),
+                        r,
+                        jnp.concatenate([r[1:], jnp.zeros((1, nx))], axis=0),
+                    ],
+                    axis=-1,
+                )
+                rtilde = jnp.matvec(Phiinv, rs)  # vmap(lambda A, v: A @ v)
+                etaprime = jnp.sum(r * rtilde)  # jnp.sum(vmap(jnp.dot)(r, rtilde))
+                beta = etaprime / eta
+                p = rtilde + beta * p
+                eta = etaprime
+                # jax.debug.print("eta = {eta}", eta=eta)
+                it = it + 1
+            val = (it, r, p, eta, lambs)
+            return val
 
         val = while_loop(cond_fun, pcg_iterate_fun, init_val=(0, r, p, eta, lambs))
         # 3) get optimal solution (lambda* -> (x, u))
